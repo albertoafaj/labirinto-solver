@@ -14,24 +14,24 @@ public class Main {
 	public static void main(String[] args) {
 		// LE O ARQUIVO
 		String filePath = JOptionPane.showInputDialog("Informe o caminho completo do arquivo de entrada do labirinto:");
-	
+
 		if (filePath == null || filePath.trim().equals("")) {
 			JOptionPane.showMessageDialog(null,
-				    "Caminho do arquivo deve ser informado",
-				    "Alerta",
-				    JOptionPane.WARNING_MESSAGE);
+					"Caminho do arquivo deve ser informado",
+					"Alerta",
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		
+
 		File f = new File(filePath);
 		if (!f.exists() || f.isDirectory()) {
 			JOptionPane.showMessageDialog(null,
-				    "Caminho do arquivo informado é inválido",
-				    "Alerta",
-				    JOptionPane.WARNING_MESSAGE);
+					"Caminho do arquivo informado ï¿½ invï¿½lido",
+					"Alerta",
+					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		
+
 		List<String> lines = new ArrayList<String>();
 		try {
 			FileInputStream fstream = new FileInputStream(filePath);
@@ -42,96 +42,135 @@ public class Main {
 				lines.add(strLine);
 
 			fstream.close();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-				    "Não foi possível ler o arquivo de entrada",
-				    "Error",
-				    JOptionPane.ERROR_MESSAGE);
+					"Nï¿½o foi possï¿½vel ler o arquivo de entrada",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
-        }
-		
+		}
+
 		String[] dimensoes = lines.get(0).split(" ");
 		int linhas = Integer.parseInt(dimensoes[0]);
 		int colunas = Integer.parseInt(dimensoes[1]);
-		
+
 		// Preenche matriz do labirinto
-        String[][] matriz = new String[linhas][colunas];
-        int lAtual = -1; // Posição inicial: linha
-        int cAtual = -1; // Posição inicial: coluna
-        int lSaida = -1; // Saída: linha
-        int cSaida = -1; // Saída: coluna
+		String[][] matriz = new String[linhas][colunas];
+		int lAtual = -1; // Posiï¿½ï¿½o inicial: linha
+		int cAtual = -1; // Posiï¿½ï¿½o inicial: coluna
+		int lSaida = -1; // Saï¿½da: linha
+		int cSaida = -1; // Saï¿½da: coluna
 
-        // percorre toda a matriz (a partir da segunda linha do arquivo texto) para identificar a posição inicial e a saída
-        for (int l = 1; l < lines.size(); l++) 
-        {
-            String[] line = lines.get(l).split(" ");
-            for (int c = 0; c < line.length; c++)
-            {
-                String ll = line[c];
-                matriz[l - 1][c] = ll;
+		// percorre toda a matriz (a partir da segunda linha do arquivo texto) para
+		// identificar a posiï¿½ï¿½o inicial e a saï¿½da
+		for (int l = 1; l < lines.size(); l++) {
+			String[] line = lines.get(l).split(" ");
+			for (int c = 0; c < line.length; c++) {
+				String ll = line[c];
+				matriz[l - 1][c] = ll;
 
-                if (ll.equals("X"))
-                {
-                    // Posição inicial
-                    lAtual = l - 1;
-                    cAtual = c;
-                }
-                else if (ll.equals("0") && (l == 1 || c == 0 || l == lines.size() - 1 || c == line.length - 1))
-                {
-                    // Saída
-                    lSaida = l - 1;
-                    cSaida = c;
-                }
-            }
-        }
+				if (ll.equals("X")) {
+					// Posiï¿½ï¿½o inicial
+					lAtual = l - 1;
+					cAtual = c;
+				} else if (ll.equals("0") && (l == 1 || c == 0 || l == lines.size() - 1 || c == line.length - 1)) {
+					// Saï¿½da
+					lSaida = l - 1;
+					cSaida = c;
+				}
+			}
+		}
 
-        // Posição máxima de linha e coluna que pode ser movida (borda)
-        int extremidadeLinha = linhas - 1;
-        int extremidadeColuna = colunas - 1;
+		// Posiï¿½ï¿½o mï¿½xima de linha e coluna que pode ser movida (borda)
+		int extremidadeLinha = linhas - 1;
+		int extremidadeColuna = colunas - 1;
 
-        // Guarda o trajeto em uma list de string e já inicia com a posição de origem
-        List<String> resultado = new ArrayList<String>();
-        resultado.add("O [" + (lAtual + 1) + ", " + (cAtual + 1) + "]");
-        
-        // Percorre a matriz (labirinto) até encontrar a saída, usando as regras de prioridade e posições não visitadas, e vai armazenando o trajeto na list resultado
-        boolean achouSaida = lAtual == lSaida && cAtual == cSaida;
-        while (!achouSaida)
-        {
-            //if Pode ir para cima? Então move e guarda o movimento C na list resultado
-            //else if Pode ir para esquerda? Então move e guarda o movimento E na list resultado
-            //else if Pode ir para direita? Então move e guarda o movimento D na list resultado
-            //else if Pode ir para baixo?  Então move e guarda o movimento B na list resultado
-            //else tem que voltar para a posição anterior
+		System.out.println(lAtual);
+		System.out.println(cAtual);
+		System.out.println(lSaida);
+		System.out.println(cSaida);
 
-            // Achou a saída?
-            achouSaida = lAtual == lSaida && cAtual == cSaida;
-        }
-		
-		
-		// Escreve no arquivo texto a saída
-        String folderPath = f.getParent();
-        String fileName = f.getName();
+		// Guarda o trajeto em uma list de string e jï¿½ inicia com a posiï¿½ï¿½o de origem
+		List<String> resultado = new ArrayList<String>();
+		resultado.add("O [" + (lAtual + 1) + ", " + (cAtual + 1) + "]");
+
+		// Percorre a matriz (labirinto) atï¿½ encontrar a saï¿½da, usando as regras de
+		// prioridade e posiï¿½ï¿½es nï¿½o visitadas, e vai armazenando o trajeto na list
+		// resultado
+		boolean achouSaida = lAtual == lSaida && cAtual == cSaida;
+
+		int lAnterior = lAtual;
+		int cAnterior = cAtual;
+		while (!achouSaida) {
+			// resultado
+			// resultado
+			// resultado
+			matriz[lAtual][cAtual] = "1";
+
+			if (lAtual > 0 && matriz[lAtual - 1][cAtual].equals("0")) {
+				// if Pode ir para cima? Entï¿½o move e guarda o movimento C na list resultado
+				System.out.println(lAtual + "|" + cAtual);
+				System.out.println(matriz[lAtual - 1][cAtual].equals("0"));
+				lAnterior = lAtual;
+				cAnterior = cAtual;
+				lAtual--;
+				resultado.add("C [" + (lAtual + 1) + ", " + (cAtual + 1) + "]");
+			} else if (cAtual > 0 && matriz[lAtual][cAtual - 1].equals("0")) {
+				// else if Pode ir para esquerda? Entï¿½o move e guarda o movimento E na list
+				lAnterior = lAtual;
+				cAnterior = cAtual;
+				cAtual--;
+				resultado.add("E [" + (lAtual + 1) + ", " + (cAtual + 1) + "]");
+			} else if (cAtual < extremidadeColuna && matriz[lAtual][cAtual + 1].equals("0")) {
+				// else if Pode ir para direita? Entï¿½o move e guarda o movimento D na list
+				lAnterior = lAtual;
+				cAnterior = cAtual;
+				cAtual++;
+				resultado.add("D [" + (lAtual + 1) + ", " + (cAtual + 1) + "]");
+			} else if (lAtual < extremidadeLinha && matriz[lAtual + 1][cAtual].equals("0")) {
+				// else if Pode ir para baixo? Entï¿½o move e guarda o movimento B na list
+				lAnterior = lAtual;
+				cAnterior = cAtual;
+				lAtual++;
+				resultado.add("B [" + (lAtual + 1) + ", " + (cAtual + 1) + "]");
+			} else {
+				// else tem que voltar para a posiï¿½ï¿½o anterior
+				System.out.println(matriz[lAnterior][cAnterior]);
+				matriz[lAnterior][cAnterior] = "0";
+				System.out.println(matriz[lAnterior][cAnterior]);
+				System.out.println("Voltar uma casa");
+			}
+
+			// Achou a saï¿½da?
+			System.out.println(resultado);
+
+			achouSaida = lAtual == lSaida && cAtual == cSaida;
+		}
+
+		// Escreve no arquivo texto a saï¿½da
+		String folderPath = f.getParent();
+		String fileName = f.getName();
 		String outputPath = folderPath + "\\saida-" + fileName;
-		
+
 		try {
 			File fout = new File(outputPath);
 			FileOutputStream fos = new FileOutputStream(fout);
-		 
+
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-		 
+
 			for (int i = 0; i < resultado.size(); i++) {
 				bw.write(resultado.get(i));
 				bw.newLine();
 			}
-		 
+
 			bw.close();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-				    "Não foi possível escreve o arquivo de saída",
-				    "Error",
-				    JOptionPane.ERROR_MESSAGE);
+					"Nï¿½o foi possï¿½vel escreve o arquivo de saï¿½da",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
-        }
+		}
 	}
 
 }
