@@ -1,9 +1,6 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,46 +10,21 @@ public class Main {
 
 	public static void main(String[] args) {
 		// LE O ARQUIVO
-		String filePath = JOptionPane.showInputDialog("Informe o caminho completo do arquivo de entrada do labirinto:");
 
-		if (filePath == null || filePath.trim().equals("")) {
+		String filePath = JOptionPane.showInputDialog("Informe o caminho completo do arquivo de entrada do labirinto:");
+		File f = new File(filePath);
+		FileGet inputFileReader = new FileGet(f);
+		inputFileReader.readFile();
+		int linhas = inputFileReader.getRows();
+		int colunas = inputFileReader.getColumns();
+		List<String> lines = inputFileReader.getLines();
+		if (!inputFileReader.isValidFile()) {
 			JOptionPane.showMessageDialog(null,
 					"Caminho do arquivo deve ser informado",
 					"Alerta",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-
-		File f = new File(filePath);
-		if (!f.exists() || f.isDirectory()) {
-			JOptionPane.showMessageDialog(null,
-					"Caminho do arquivo informado � inv�lido",
-					"Alerta",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		List<String> lines = new ArrayList<String>();
-		try {
-			FileInputStream fstream = new FileInputStream(filePath);
-			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
-
-			String strLine;
-			while ((strLine = br.readLine()) != null)
-				lines.add(strLine);
-
-			fstream.close();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					"N�o foi poss�vel ler o arquivo de entrada",
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		String[] dimensoes = lines.get(0).split(" ");
-		int linhas = Integer.parseInt(dimensoes[0]);
-		int colunas = Integer.parseInt(dimensoes[1]);
 
 		// Preenche matriz do labirinto
 		String[][] matriz = new String[linhas][colunas];
