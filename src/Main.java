@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -10,8 +7,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		// LE O ARQUIVO
+		String filePath = "D:\\Projects\\Testes\\atos-desafio-labirinto\\Template-Java\\entrada-labirinto.txt";
 
-		String filePath = JOptionPane.showInputDialog("Informe o caminho completo do arquivo de entrada do labirinto:");
+		// String filePath = JOptionPane.showInputDialog("Informe o caminho completo do
+		// arquivo de entrada do labirinto:");
 		File f = new File(filePath);
 		FileGet inputFileReader = new FileGet(f);
 		inputFileReader.readFile();
@@ -120,29 +119,10 @@ public class Main {
 		}
 
 		// Escreve no arquivo texto a sa�da
-		String folderPath = f.getParent();
-		String fileName = f.getName();
-		String outputPath = folderPath + "\\saida-" + fileName;
 
-		try {
-			File fout = new File(outputPath);
-			FileOutputStream fos = new FileOutputStream(fout);
+		FileSave outputFileGenerator = new FileSave(f, resultado);
+		outputFileGenerator.saveFile();
 
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-
-			for (int i = 0; i < resultado.size(); i++) {
-				bw.write(resultado.get(i));
-				bw.newLine();
-			}
-
-			bw.close();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					"N�o foi poss�vel escreve o arquivo de sa�da",
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
 	}
 
 }
