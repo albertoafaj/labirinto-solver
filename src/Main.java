@@ -7,9 +7,9 @@ public class Main {
 	public static void main(String[] args) {
 		// Ler o arquivo e armazenar número de linhas e colunas
 
-		// String filePath = JOptionPane.showInputDialog("Informe o caminho completo do
-		// arquivo de entrada do labirinto:");
-		String filePath = "D:\\Projects\\Testes\\atos-desafio-labirinto\\Template-Java\\entrada-labirinto_sem_saida.txt";
+		String filePath = JOptionPane.showInputDialog("Informe o caminho completo do arquivo de entrada do labirinto:");
+		// String filePath =
+		// "D:\\Projects\\Testes\\atos-desafio-labirinto\\Template-Java\\entrada-labirinto_sem_saida.txt";
 		File f = new File(filePath);
 		FileGet inputFileReader = new FileGet(f);
 		inputFileReader.readFile();
