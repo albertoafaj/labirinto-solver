@@ -25,32 +25,43 @@ public class Main {
 			return;
 		}
 
-		// Preenche matriz do labirinto
-		String[][] matriz = new String[linhas][colunas];
-		int lAtual = -1; // Posi��o inicial: linha
-		int cAtual = -1; // Posi��o inicial: coluna
-		int lSaida = -1; // Sa�da: linha
-		int cSaida = -1; // Sa�da: coluna
+		// Preencher matriz do labirinto e identificar a posi��o inicial e a sa�da
 
-		// percorre toda a matriz (a partir da segunda linha do arquivo texto) para
-		// identificar a posi��o inicial e a sa�da
-		for (int l = 1; l < lines.size(); l++) {
-			String[] line = lines.get(l).split(" ");
-			for (int c = 0; c < line.length; c++) {
-				String ll = line[c];
-				matriz[l - 1][c] = ll;
+		LabyrinthGet labyrint = new LabyrinthGet(linhas, colunas, lines);
+		String[][] matriz = labyrint.getMatriz();
+		int lAtual = labyrint.getlAtual();
+		int cAtual = labyrint.getcAtual();
+		int lSaida = labyrint.getlSaida();
+		int cSaida = labyrint.getcSaida();
 
-				if (ll.equals("X")) {
-					// Posi��o inicial
-					lAtual = l - 1;
-					cAtual = c;
-				} else if (ll.equals("0") && (l == 1 || c == 0 || l == lines.size() - 1 || c == line.length - 1)) {
-					// Sa�da
-					lSaida = l - 1;
-					cSaida = c;
-				}
-			}
-		}
+		/*
+		 * String[][] matriz = new String[linhas][colunas];
+		 * int lAtual = -1; // Posi��o inicial: linha
+		 * int cAtual = -1; // Posi��o inicial: coluna
+		 * int lSaida = -1; // Sa�da: linha
+		 * int cSaida = -1; // Sa�da: coluna
+		 * 
+		 * // percorre toda a matriz (a partir da segunda linha do arquivo texto) para
+		 * // identificar a posi��o inicial e a sa�da
+		 * for (int l = 1; l < lines.size(); l++) {
+		 * String[] line = lines.get(l).split(" ");
+		 * for (int c = 0; c < line.length; c++) {
+		 * String ll = line[c];
+		 * matriz[l - 1][c] = ll;
+		 * 
+		 * if (ll.equals("X")) {
+		 * // Posi��o inicial
+		 * lAtual = l - 1;
+		 * cAtual = c;
+		 * } else if (ll.equals("0") && (l == 1 || c == 0 || l == lines.size() - 1 || c
+		 * == line.length - 1)) {
+		 * // Sa�da
+		 * lSaida = l - 1;
+		 * cSaida = c;
+		 * }
+		 * }
+		 * }
+		 */
 
 		// Posi��o m�xima de linha e coluna que pode ser movida (borda)
 		int extremidadeLinha = linhas - 1;
