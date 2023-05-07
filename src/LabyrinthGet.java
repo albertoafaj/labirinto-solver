@@ -1,5 +1,7 @@
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class LabyrinthGet {
 
   private String[][] matriz;
@@ -31,6 +33,13 @@ public class LabyrinthGet {
         }
       }
     }
+    if (lSaida == -1 || cSaida == -1) {
+      JOptionPane.showMessageDialog(null,
+          "O labirinto não tem saída",
+          "Alerta",
+          JOptionPane.WARNING_MESSAGE);
+    }
+    throw new Error("Labirinto sem Saída");
   }
 
   // Getters e setters para as variáveis privadas
