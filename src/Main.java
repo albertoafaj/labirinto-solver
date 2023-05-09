@@ -24,6 +24,10 @@ public class Main {
 			return;
 		}
 
+		System.out.println(linhas);
+		System.out.println(colunas);
+		System.out.println(lines);
+
 		// Preencher matriz do labirinto e identificar a posição inicial e a saída
 
 		LabyrinthGet labyrint = new LabyrinthGet(linhas, colunas, lines);

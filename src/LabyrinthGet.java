@@ -38,8 +38,8 @@ public class LabyrinthGet {
           "O labirinto não tem saída",
           "Alerta",
           JOptionPane.WARNING_MESSAGE);
+      throw new Error("Labirinto sem Saída");
     }
-    throw new Error("Labirinto sem Saída");
   }
 
   // Getters e setters para as variáveis privadas
