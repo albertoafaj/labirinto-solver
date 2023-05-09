@@ -8,8 +8,6 @@ public class Main {
 		// Ler o arquivo e armazenar número de linhas e colunas
 
 		String filePath = JOptionPane.showInputDialog("Informe o caminho completo do arquivo de entrada do labirinto:");
-		// String filePath =
-		// "D:\\Projects\\Testes\\atos-desafio-labirinto\\Template-Java\\entrada-labirinto_sem_saida.txt";
 		File f = new File(filePath);
 		FileGet inputFileReader = new FileGet(f);
 		inputFileReader.readFile();
@@ -24,10 +22,6 @@ public class Main {
 			return;
 		}
 
-		System.out.println(linhas);
-		System.out.println(colunas);
-		System.out.println(lines);
-
 		// Preencher matriz do labirinto e identificar a posição inicial e a saída
 
 		LabyrinthGet labyrint = new LabyrinthGet(linhas, colunas, lines);
@@ -36,9 +30,6 @@ public class Main {
 		int cAtual = labyrint.getcAtual();
 		int lSaida = labyrint.getlSaida();
 		int cSaida = labyrint.getcSaida();
-
-		System.out.println("Main.main()" + lSaida);
-		System.out.println("Main.main()" + cSaida);
 
 		// Resolver labirinto e salvar resultado;
 
